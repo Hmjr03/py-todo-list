@@ -1,37 +1,103 @@
-{% extends "todo/base.html" %}
+{% extends "base.html" %}
 
-{% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="fw-bold text-dark">Tags</h1>
-    <a href="{% url 'tag-create' %}" class="btn btn-primary px-4 fw-bold">Add tag +</a>
-</div>
-
-<div class="card shadow-sm border-0">
-    <div class="card-body p-0">
-        <table class="table table-hover mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th class="ps-4">Name</th>
-                    <th class="text-center">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tag in tag_list %}
-                <tr>
-                    <td class="ps-4 align-middle fw-semibold">{{ tag.name }}</td>
-                    <td class="text-center align-middle">
-                        <a href="{% url 'tag-update' tag.id %}" class="btn btn-sm btn-outline-primary me-2">Update</a>
-                        <a href="{% url 'tag-delete' tag.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="2" class="text-center p-4 text-muted">Nenhuma tag cadastrada.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
+{% block title %}
+    Tags
 {% endblock %}
 
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>
+        Tags
+    </h1>
+
+    <a
+        href="{% url 'tag-create' %}"
+        class="button"
+    >
+        Add
+    </a>
+
+</div>
+
+
+{% if tags %}
+
+<table class="tag-table">
+
+    <thead>
+
+        <tr>
+            <th>Name</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        {% for tag in tags %}
+
+        <tr>
+
+            <td>
+                {{ tag.name }}
+            </td>
+
+
+            <td>
+
+                <a
+                    href="{% url 'tag-update' tag.pk %}"
+                    class="link-button"
+                >
+                    Update
+                </a>
+
+            </td>
+
+
+            <td>
+
+                <a
+                    href="{% url 'tag-delete' tag.pk %}"
+                    class="link-button link-danger"
+                >
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+
+{% else %}
+
+<div class="empty-state">
+
+    <p>
+        No tags yet.
+    </p>
+
+    <a
+        href="{% url 'tag-create' %}"
+        class="button"
+    >
+        Add your first tag
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
